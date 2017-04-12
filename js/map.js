@@ -34,8 +34,21 @@ var nearbyAds = [];
 
   var typeFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var getFeatures = function () {
-    var i = randomInteger(0, typeFeatures.length - 1);
-    return typeFeatures[i];
+
+    var i = randomInteger(1, typeFeatures.length);             // Объявляем переменную длина нового массива и назначаем ей случайное число от 1 до длины typeFeatures
+    var newTypeFeatures = [];
+    newTypeFeatures.lenght = i;                                // Создаем новый массив этой длины
+      for (var j = 0; j < i; j++) {                            // Пробегаемся по новому массиву в цикле
+        var k = randomInteger(0, typeFeatures.length - 1);     // и на каждый шаг создаем новое случайное значение, и берем его из массива typeFeatures
+
+          for (var l = 0; l < newTypeFeatures.length; l++) {
+            if (newTypeFeatures[l] === typeFeatures[k]) {      // Если такого значения еще нет в новом цикле, то кладем его туда
+              return false;
+            }
+          }
+          newTypeFeatures[j] = typeFeatures[k];
+
+    }
   };
 
   var getLocation = function (locationX, locationY) {
@@ -73,3 +86,9 @@ var nearbyAds = [];
     };
   }
 
+// Создание DOM элементов
+
+  var pin = document.querySelector('.pin');
+  pin.style.left = offer.location.x;
+  pin.style.top = offer.location.y;
+  pin.img('src', offer.author.avatar);
