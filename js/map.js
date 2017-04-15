@@ -84,19 +84,50 @@ for (var id = 0; id < 8; id++) {
   };
 }
 
+
+
 // Создание DOM элементов
 
+var pinMain = document.querySelector('.pin');              // ищу по классу pin и присваиваю всё переменной
+
+var pin = pinMain.cloneNode(true);                         // копирую div c классом pin
+
+var imgAddress = function (imgNumber) {                    // новые пути для аватаров
+  return 'img/avatars/user0' + imgNumber + '.png';
+};
+
+var getLocationX = function (locXNearbyAds) {
+  return 'location.' + locXNearbyAds + '';
+};
+var getLocationY = function (locYNearbyAds) {
+  return 'location.' + locYNearbyAds + '';
+};
 
 for (var i = 0; i < 8; i ++) {
-  var offer = nearbyAds[i].offer;
-  var pin = document.querySelector('.pin');
-  pin.style.left = location.x + 'px';
-  pin.style.top = location.y + 'px';
-  pin.appendChild(img);
+
+  var locXNearbyAds = nearbyAds[i].location.x;          // обращаюсь к массиву за координатами
+  var locYNearbyAds = nearbyAds[i].location.y;
+
+  pin.className = "pin";                                  // меняю у div класс с "pin pin__main" на "pin"
+  pin.style.left = getLocationX(locXNearbyAds) + 'px';    // добавляю style="left: {{location.x}}px"
+  pin.style.top = getLocationY(locYNearbyAds) + 'px';     // добавляю style="top: {{location.y}}px"
+
+  // pin.appendChild(img);                             ???У меня же создан img т.к. я копировал pin?
+
+  var imgAvatar = pin.getElementsByTagName("img")[i];     // обращаюсь к тегу img
+  var imgNumber = i + 1;
+
+  imgAvatar.src = imgAddress(imgNumber);                  // присваиваю новый адрес аватара
+  imgAvatar.src.removeChild(alt);                         // удаляю alt = "Main Pin"
 }
 
-   // return pin;
-  // .cloneNode(true)
-  // pin.img('src', offer.author.avatar);
 
 
+// Отрисовываю DOM-элементы
+
+function pinToMap(nearbyAds) {
+  var tokyoMap = document.querySelector('.tokyo__pin-map');
+  for (var i = 0; i < nearbyAds.length; i++) {
+    tokyoMap.createDocumentFragment(pin(nearbyAds[i]));
+  }
+}
