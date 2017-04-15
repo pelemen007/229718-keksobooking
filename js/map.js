@@ -61,25 +61,25 @@ for (var id = 0; id < 8; id++) {
   var idAvatar = id + 1;
 
   nearbyAds[id] = {
-    "author": {
-      "avatar": getAvatar(idAvatar)                   // строка, адрес изображения вида img/avatars/user{{xx}}.png, где xx это число от 1 до 8 с ведущим нулем. Например 01, 02 и т. д. Адреса изображений не повторяются
+    author: {
+      avatar: getAvatar(idAvatar)                   // строка, адрес изображения вида img/avatars/user{{xx}}.png, где xx это число от 1 до 8 с ведущим нулем. Например 01, 02 и т. д. Адреса изображений не повторяются
     },
-    "offer": {
-      "title": getTitle(),                            // строка, заголовок предложения, одно из фиксированных значений "Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде". Значения не должны повторяться.
-      "address": getLocation(locationX, locationY),   // строка, адрес предложения, представляет собой запись вида "{{location.x}}, {{location.y}}"
-      "price": randomInteger(1000, 1000000),          // число, случайная цена от 1000 до 1000000
-      "type": getTypeHouse(),                         // строка с одним из трех фиксированных значений: flat, house или bungalo
-      "rooms": randomInteger(1, 5),                   // число, случайное количество комнат от 1 до 5
-      "guests": randomInteger(1, 20),                 // число, случайное количество гостей, которое можно разместить
-      "checkin": getTimeCheckin(),                    // строка с одним из трех фиксированных значений: 12:00, 13:00 или 14:00
-      "checkout": getTimeCheckout(),                  // строка с одним из трех фиксированных значений: 12:00, 13:00 или 14:00
-      "features": getFeatures(),                      // массив строк случайной длины из ниже предложенных: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"
-      "description": '',                              // пустая строка
-      "photos": []                                    // пустой массив
+    offer: {
+      title: getTitle(),                            // строка, заголовок предложения, одно из фиксированных значений "Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде". Значения не должны повторяться.
+      address: getLocation(locationX, locationY),   // строка, адрес предложения, представляет собой запись вида "{{location.x}}, {{location.y}}"
+      price: randomInteger(1000, 1000000),          // число, случайная цена от 1000 до 1000000
+      type: getTypeHouse(),                         // строка с одним из трех фиксированных значений: flat, house или bungalo
+      rooms: randomInteger(1, 5),                   // число, случайное количество комнат от 1 до 5
+      guests: randomInteger(1, 20),                 // число, случайное количество гостей, которое можно разместить
+      checkin: getTimeCheckin(),                    // строка с одним из трех фиксированных значений: 12:00, 13:00 или 14:00
+      checkout: getTimeCheckout(),                  // строка с одним из трех фиксированных значений: 12:00, 13:00 или 14:00
+      features: getFeatures(),                      // массив строк случайной длины из ниже предложенных: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"
+      description: '',                              // пустая строка
+      photos: []                                    // пустой массив
     },
-    "location": {
-      "x": locationX,                                 // случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900,
-      "y": locationY                                  // случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
+    location: {
+      x: locationX,                                 // случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900,
+      y: locationY                                  // случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
     }
   };
 }
@@ -101,18 +101,18 @@ var getLocationY = function (locYNearbyAds) {
   return 'location.' + locYNearbyAds + '';
 };
 
-for (var i = 0; i < 8; i ++) {
+for (var i = 0; i < 8; i++) {
 
   var locXNearbyAds = nearbyAds[i].location.x;          // обращаюсь к массиву за координатами
   var locYNearbyAds = nearbyAds[i].location.y;
 
-  pin.className = "pin";                                  // меняю у div класс с "pin pin__main" на "pin"
+  pin.className = 'pin';                                  // меняю у div класс с "pin pin__main" на "pin"
   pin.style.left = getLocationX(locXNearbyAds) + 'px';    // добавляю style="left: {{location.x}}px"
   pin.style.top = getLocationY(locYNearbyAds) + 'px';     // добавляю style="top: {{location.y}}px"
 
   // pin.appendChild(img);                             ???У меня же создан img т.к. я копировал pin?
 
-  var imgAvatar = pin.getElementsByTagName("img")[i];     // обращаюсь к тегу img
+  var imgAvatar = pin.getElementsByTagName('img')[i];     // обращаюсь к тегу img
   var imgNumber = i + 1;
 
   imgAvatar.src = imgAddress(imgNumber);                  // присваиваю новый адрес аватара
@@ -121,9 +121,9 @@ for (var i = 0; i < 8; i ++) {
 
 // Отрисовываю DOM-элементы
 
-function pinToMap(nearbyAds) {
+function pinToMap() {
   var tokyoMap = document.querySelector('.tokyo__pin-map');
-  for (var i = 0; i < nearbyAds.length; i++) {
+  for (var m = 0; m < nearbyAds.length; m++) {
     tokyoMap.createDocumentFragment(pin(nearbyAds[i]));
   }
 }
