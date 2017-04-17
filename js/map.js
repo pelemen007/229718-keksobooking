@@ -35,10 +35,13 @@ var getTimeCheckout = function () {
 };
 
 var typeFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
+var newTypeFeatures = [];
+
 var getFeatures = function () {
 
   var i = randomInteger(1, typeFeatures.length);
-  var newTypeFeatures = [];
+
   for (var j = 0; j < i; j++) {
     var k = randomInteger(0, typeFeatures.length - 1);
     var chooseFeature = typeFeatures[k];
@@ -91,7 +94,7 @@ var drawPin = document.createDocumentFragment();            // создал пу
 for (var i = 0; i < nearbyAds.length; i++) {
 
   var pin = document.createElement('div').cloneNode(true);                   // создаю div
-  pin.className = "pin";                                     // добавляю класс pin
+  pin.className = 'pin';                                     // добавляю класс pin
   pin.style.left = (nearbyAds[i].location.x - 28) + 'px';           // добавляю атрибуты
   pin.style.top = nearbyAds[i].location.y + 'px';
 
@@ -106,5 +109,48 @@ for (var i = 0; i < nearbyAds.length; i++) {
 
 var tokyoMap = document.querySelector('.tokyo__pin-map');               // нашёл .tokyo__pin-map
 tokyoMap.appendChild(drawPin);                                          // добавляю получившийся фрагмент в .tokyo__pin-map
-  console.log(tokyoMap);
 
+// пункт 4. Работаю с шаблоном #lodge-template
+
+function renderLodgeContent(nearbyAds) {
+
+  var lodge = document.querySelector('#lodge-template').content.cloneNode(true);          // копирую id="lodge-template"
+
+  lodge.querySelector('.lodge__title').textContent = nearbyAds.offer.title;               // Вывожу заголовок объявления offer.title в блок .lodge__title
+  lodge.querySelector('.lodge__address').textContent = nearbyAds.offer.address;           // Вывожу адрес offer.address в блок lodge__address
+
+  function changeType(type) {                                                             // Перевожу тип жилья с анг на рус
+    switch (type) {
+      case 'flat':
+        return 'Квартира';
+      case 'bungalo':
+        return 'Бунгало';
+      case 'house':
+        return 'Дом';
+      default: return '';
+    }
+  }
+
+  lodge.querySelector('.lodge__type').textContent = changeType(nearbyAds.offer.type);      // Вывожу тип жилья offer.type в блок lodge__type на русском языке
+  lodge.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + nearbyAds.offer.guests + ' гостей в ' + nearbyAds.offer.rooms + ' комнатах';        // Вывожу количество гостей и комнат offer.rooms и offer.guests в блок .lodge__rooms-and-guests
+  lodge.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + nearbyAds.offer.checkin + ', выезд до ' + nearbyAds.offer.checkout;             // Вывожу время заезда и выезда offer.checkin и offer.checkout в блок .lodge__checkin-time
+
+  function lodgeFeatures(newTypeFeatures) {                                                   // создаю span с правильным классом
+    var codeFeatures = '';
+    for (i = 0; i < newTypeFeatures.length; i++) {
+      codeFeatures += '<span class="feature__image feature__image--' + newTypeFeatures[i] + '"></span>';
+    }
+    return codeFeatures;
+  }
+
+  lodge.querySelector('.lodge__features').innerHTML = lodgeFeatures(nearbyAds.offer.features);        // В блок .lodge__features вывожу все удобства в квартире из массива {{offer.features}} пустыми спанами
+  lodge.querySelector('.lodge__description').textContent = nearbyAds.offer.description;                // В блок .lodge__description вывожу описание объекта offer.description
+
+  return lodge;
+}
+
+var dialog = document.querySelector('.dialog__panel');                                                 // нахожу div с классом dialog__panel
+dialog.innerHTML = '';                                                                                 // очищаю его
+dialog.appendChild(renderLodgeContent(nearbyAds[0]));                                                  // заполняю его данными из массива данными первого объекта
+
+document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
