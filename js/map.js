@@ -86,16 +86,11 @@ for (var id = 0; id < 8; id++) {
 
 // Создание DOM элементов
 
-var pinMain = document.querySelector('.pin');              // ищу по классу pin и присваиваю всё переменной
-var parentPin = pinMain.parentElement;                     // ищу родителя
-//console.log(pinMain);
-//console.log(parentPin);
-
+var drawPin = document.createDocumentFragment();            // создал пустой DocumentFragment
 
 for (var i = 0; i < nearbyAds.length; i++) {
 
-  var pin = document.createElement('div');                   // создаю div
-  // parentPin.appendChild(pin);                                // кладу его в родителя
+  var pin = document.createElement('div').cloneNode(true);                   // создаю div
   pin.className = "pin";                                     // добавляю класс pin
   pin.style.left = (nearbyAds[i].location.x - 28) + 'px';           // добавляю атрибуты
   pin.style.top = nearbyAds[i].location.y + 'px';
@@ -106,56 +101,10 @@ for (var i = 0; i < nearbyAds.length; i++) {
   pinAvatar.className = 'rounded';
   pinAvatar.width = '40';
   pinAvatar.height = '40';
-
+  drawPin.appendChild(pin);                                    // добавляю всё из pin в DocumentFragment
 }
-var pin = pin.cloneNode(true);
-console.log(pin);
-console.log(pin2);
-//
-// pin.src.remove(alt);                         // удаляю alt = "Main Pin"
-//
-// var imgAddress = function (imgNumber) {                    // новые пути для аватаров
-//   return 'img/avatars/user0' + imgNumber + '.png';
-// };
-//
-// var getLocationX = function (locXNearbyAds) {
-//   return 'location.' + locXNearbyAds + '';
-// };
-// var getLocationY = function (locYNearbyAds) {
-//   return 'location.' + locYNearbyAds + '';
-// };
-//
-// for (var i = 0; i < nearbyAds.length; i++) {
-//
-//   var locXNearbyAds = nearbyAds[i].location.x;          // обращаюсь к массиву за координатами
-//   console.log(locXNearbyAds);
-//   var locYNearbyAds = nearbyAds[i].location.y;
-//
-//   pin.style.left = getLocationX(locXNearbyAds) + 'px';    // добавляю style="left: {{location.x}}px"
-//   pin.style.top = getLocationY(locYNearbyAds) + 'px';     // добавляю style="top: {{location.y}}px"
-//
-//   // pin.appendChild(img);                             ???У меня же создан img т.к. я копировал pin?
-//
-//   var imgAvatar = pin.getElementsByTagName('img')[i];     // обращаюсь к тегу img
-//   var imgNumber = i + 1;
-//
-//   imgAvatar.src.innerHTML = imgAddress(imgNumber);                  // присваиваю новый адрес аватара
-// }
-//
-
-
-
-// Отрисовываю DOM-элементы
 
 var tokyoMap = document.querySelector('.tokyo__pin-map');               // нашёл .tokyo__pin-map
-var drawPin = document.createDocumentFragment();                        // создал пустой DocumentFragment
-drawPin.appendChild(pin);                                               // добавляю всё из pin в DocumentFragment
 tokyoMap.appendChild(drawPin);                                          // добавляю получившийся фрагмент в .tokyo__pin-map
   console.log(tokyoMap);
-
-
-  // for (var m = 0; m < nearbyAds.length; m++) {
-  //
-  //   drawPin.appendChild(pin[m])
-  // }
 
