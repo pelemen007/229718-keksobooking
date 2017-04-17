@@ -112,7 +112,7 @@ tokyoMap.appendChild(drawPin);                                          // до�
 
 // пункт 4. Работаю с шаблоном #lodge-template
 
-function renderLodgeContent(nearbyAds) {
+function renderLodgeContent() {
 
   var lodge = document.querySelector('#lodge-template').content.cloneNode(true);          // копирую id="lodge-template"
 
@@ -135,7 +135,7 @@ function renderLodgeContent(nearbyAds) {
   lodge.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + nearbyAds.offer.guests + ' гостей в ' + nearbyAds.offer.rooms + ' комнатах';        // Вывожу количество гостей и комнат offer.rooms и offer.guests в блок .lodge__rooms-and-guests
   lodge.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + nearbyAds.offer.checkin + ', выезд до ' + nearbyAds.offer.checkout;             // Вывожу время заезда и выезда offer.checkin и offer.checkout в блок .lodge__checkin-time
 
-  function lodgeFeatures(newTypeFeatures) {                                                   // создаю span с правильным классом
+  function lodgeFeatures() {                                                   // создаю span с правильным классом
     var codeFeatures = '';
     for (i = 0; i < newTypeFeatures.length; i++) {
       codeFeatures += '<span class="feature__image feature__image--' + newTypeFeatures[i] + '"></span>';
