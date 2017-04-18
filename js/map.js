@@ -111,7 +111,7 @@ var tokyoMap = document.querySelector('.tokyo__pin-map');               // на�
 tokyoMap.appendChild(drawPin);                                          // добавляю получившийся фрагмент в .tokyo__pin-map
 
 // пункт 4. Работаю с шаблоном #lodge-template
-var x;
+
 function renderLodgeContent(x) {
 
   var lodge = document.querySelector('#lodge-template').content.cloneNode(true);          // копирую id="lodge-template"
@@ -151,8 +151,8 @@ function renderLodgeContent(x) {
 
 var dialog = document.querySelector('.dialog__panel');                                                 // нахожу div с классом dialog__panel
 dialog.innerHTML = '';                                                                        // очищаю его
-x = 0;
-dialog.appendChild(renderLodgeContent(x));                                                  // заполняю его данными из массива данными первого объекта
+
+dialog.appendChild(renderLodgeContent(0));                                                  // заполняю его данными из массива данными первого объекта
 
 document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
 
