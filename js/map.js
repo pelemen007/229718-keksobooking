@@ -111,13 +111,13 @@ var tokyoMap = document.querySelector('.tokyo__pin-map');               // на�
 tokyoMap.appendChild(drawPin);                                          // добавляю получившийся фрагмент в .tokyo__pin-map
 
 // пункт 4. Работаю с шаблоном #lodge-template
-
-function renderLodgeContent() {
+var x;
+function renderLodgeContent(x) {
 
   var lodge = document.querySelector('#lodge-template').content.cloneNode(true);          // копирую id="lodge-template"
 
-  lodge.querySelector('.lodge__title').textContent = nearbyAds.offer.title;               // Вывожу заголовок объявления offer.title в блок .lodge__title
-  lodge.querySelector('.lodge__address').textContent = nearbyAds.offer.address;           // Вывожу адрес offer.address в блок lodge__address
+  lodge.querySelector('.lodge__title').textContent = nearbyAds[x].offer.title;               // Вывожу заголовок объявления offer.title в блок .lodge__title
+  lodge.querySelector('.lodge__address').textContent = nearbyAds[x].offer.address;           // Вывожу адрес offer.address в блок lodge__address
 
   function changeType(type) {                                                             // Перевожу тип жилья с анг на рус
     switch (type) {
@@ -131,9 +131,9 @@ function renderLodgeContent() {
     }
   }
 
-  lodge.querySelector('.lodge__type').textContent = changeType(nearbyAds.offer.type);      // Вывожу тип жилья offer.type в блок lodge__type на русском языке
-  lodge.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + nearbyAds.offer.guests + ' гостей в ' + nearbyAds.offer.rooms + ' комнатах';        // Вывожу количество гостей и комнат offer.rooms и offer.guests в блок .lodge__rooms-and-guests
-  lodge.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + nearbyAds.offer.checkin + ', выезд до ' + nearbyAds.offer.checkout;             // Вывожу время заезда и выезда offer.checkin и offer.checkout в блок .lodge__checkin-time
+  lodge.querySelector('.lodge__type').textContent = changeType(nearbyAds[x].offer.type);      // Вывожу тип жилья offer.type в блок lodge__type на русском языке
+  lodge.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + nearbyAds[x].offer.guests + ' гостей в ' + nearbyAds[x].offer.rooms + ' комнатах';        // Вывожу количество гостей и комнат offer.rooms и offer.guests в блок .lodge__rooms-and-guests
+  lodge.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + nearbyAds[x].offer.checkin + ', выезд до ' + nearbyAds[x].offer.checkout;             // Вывожу время заезда и выезда offer.checkin и offer.checkout в блок .lodge__checkin-time
 
   function lodgeFeatures() {                                                   // создаю span с правильным классом
     var codeFeatures = '';
@@ -143,14 +143,16 @@ function renderLodgeContent() {
     return codeFeatures;
   }
 
-  lodge.querySelector('.lodge__features').innerHTML = lodgeFeatures(nearbyAds.offer.features);        // В блок .lodge__features вывожу все удобства в квартире из массива {{offer.features}} пустыми спанами
-  lodge.querySelector('.lodge__description').textContent = nearbyAds.offer.description;                // В блок .lodge__description вывожу описание объекта offer.description
+  lodge.querySelector('.lodge__features').innerHTML = lodgeFeatures(nearbyAds[x].offer.features);        // В блок .lodge__features вывожу все удобства в квартире из массива {{offer.features}} пустыми спанами
+  lodge.querySelector('.lodge__description').textContent = nearbyAds[x].offer.description;                // В блок .lodge__description вывожу описание объекта offer.description
 
   return lodge;
 }
 
 var dialog = document.querySelector('.dialog__panel');                                                 // нахожу div с классом dialog__panel
-dialog.innerHTML = '';                                                                                 // очищаю его
-dialog.appendChild(renderLodgeContent(nearbyAds[0]));                                                  // заполняю его данными из массива данными первого объекта
+dialog.innerHTML = '';                                                                        // очищаю его
+x = 0;
+dialog.appendChild(renderLodgeContent(x));                                                  // заполняю его данными из массива данными первого объекта
 
 document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
+
