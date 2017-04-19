@@ -159,7 +159,7 @@ document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].au
 // .......................module4-task1
 
 var elementPin = document.querySelector('.pin');
-elementPin.addEventListener('click', function() {                // При нажатии на любой из элементов .pin ему должен добавляться класс pin--active
+elementPin.addEventListener('click', function () {                // При нажатии на любой из элементов .pin ему должен добавляться класс pin--active
   for (var j = 0; j < pin.length; j++) {                         // Если до этого у другого элемента существовал класс pin--active, то у этого элемента класс нужно убрать
     pin[j].classList.remove('pin--active');
   }
