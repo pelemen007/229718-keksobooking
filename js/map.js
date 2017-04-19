@@ -53,7 +53,7 @@ var getFeatures = function () {
 };
 
 var getLocation = function (locX, locY) {
-  return 'location.' + locX + ', location.' + locY + '';
+  return locX + ', ' + locY;
 };
 
 for (var id = 0; id < 8; id++) {
@@ -104,7 +104,7 @@ for (var i = 0; i < nearbyAds.length; i++) {
   pinAvatar.className = 'rounded';
   pinAvatar.width = '40';
   pinAvatar.height = '40';
-  drawPin.appendChild(pin);                                    // добавляю всё из pin в DocumentFragment
+  drawPin.appendChild(pin);               // добавляю всё из pin в DocumentFragment
 }
 
 var tokyoMap = document.querySelector('.tokyo__pin-map');               // нашёл .tokyo__pin-map
@@ -156,3 +156,13 @@ dialog.appendChild(renderLodgeContent(0));                                      
 
 document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
 
+// .......................module4-task1
+
+var elementPin = document.querySelector('.pin');
+elementPin.addEventListener('click', function() {                // При нажатии на любой из элементов .pin ему должен добавляться класс pin--active
+  for (var j = 0; j < pin.length; j++) {                         // Если до этого у другого элемента существовал класс pin--active, то у этого элемента класс нужно убрать
+    pin[j].classList.remove('pin--active');
+  }
+  elementPin.classList.add('pin--active');
+                                                            // ????? и должен показываться элемент .dialog
+});
