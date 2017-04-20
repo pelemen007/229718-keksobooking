@@ -93,7 +93,7 @@ var drawPin = document.createDocumentFragment();            // создал пу
 
 for (var i = 0; i < nearbyAds.length; i++) {
 
-  var pin = document.createElement('div').cloneNode(true);                   // создаю div
+  var pin = document.createElement('div');                   // создаю div
   pin.className = 'pin';                                     // добавляю класс pin
   pin.style.left = (nearbyAds[i].location.x - 28) + 'px';           // добавляю атрибуты
   pin.style.top = nearbyAds[i].location.y + 'px';
@@ -104,6 +104,7 @@ for (var i = 0; i < nearbyAds.length; i++) {
   pinAvatar.className = 'rounded';
   pinAvatar.width = '40';
   pinAvatar.height = '40';
+  pinAvatar.style.pointerEvents = 'none';
   drawPin.appendChild(pin);               // добавляю всё из pin в DocumentFragment
 }
 
@@ -158,11 +159,30 @@ document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].au
 
 // .......................module4-task1
 
-var elementPin = document.querySelector('.pin');
-elementPin.addEventListener('click', function () {                // При нажатии на любой из элементов .pin ему должен добавляться класс pin--active
-  for (var j = 0; j < pin.length; j++) {                         // Если до этого у другого элемента существовал класс pin--active, то у этого элемента класс нужно убрать
-    pin[j].classList.remove('pin--active');
+var activePin = function(pinEl) {                                                        // функция добавления класса pin--active
+  pinEl.classList.add('pin--active');
+};
+
+var deactivePin = function (pinEl) {                                                     // функция удаления класса pin--active
+  pinEl.classList.remove('pin--active');
+};
+
+var deactiveAllPin = function() {                                                        // функция удаления класса pin--active у всех дивов
+  for (var j = 1; j < elementPins.length; j++) {
+    deactivePin(elementPins[j]);
   }
-  elementPin.classList.add('pin--active');
-                                                            // ????? и должен показываться элемент .dialog
-});
+};
+
+var clickHandler = function (event) {                                                    // деактивируем все активные пины, и активируем по таргету
+  console.log(event);
+  deactiveAllPin();
+  activePin(event.target);
+};
+
+var elementPins = document.querySelectorAll('.pin');                                      // нахожу все дивы с классом pin
+
+for (var k = 1; k < elementPins.length; k++) {                                            // назначаем обработчик всем найденным дивам
+  var elementPin = elementPins[k];
+  elementPin.addEventListener('click', clickHandler);
+}
+
