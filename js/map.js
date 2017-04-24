@@ -174,7 +174,7 @@ var deactiveAllPin = function () {                                              
   }
 };
 
-var numberActivePin = function (elementPins) {                                                       // функция поиска активного пина
+var numberActivePin = function () {                                                       // функция поиска активного пина
    for (var m = 0; m < elementPins.length; m++) {
      if (elementPins[m].classList.value == 'pin pin--active') {     // <-------------- ВОТ ТУТ ПРОБЛЕМЫ
       var p = m;
@@ -235,3 +235,12 @@ var enterCloseHandler = function (evt) {                                        
 var dialogCloseButton = document.querySelector('.dialog__close');
 dialogCloseButton.addEventListener('click', clickCloseHandler);                           // обработчик по клику на закрытие
 dialogCloseButton.addEventListener('keydown', enterCloseHandler);                         // обработчик по enter на закрытие
+
+
+var dialogClose = function (evt) {                                                       // закрытие по esc
+  if (evt.keyCode === 27) {
+    document.getElementById('offer-dialog').style.display = 'none';
+    deactiveAllPin();
+  }
+};
+document.addEventListener('keydown', dialogClose(evt));                                   // обработчик на закрытие по esc
