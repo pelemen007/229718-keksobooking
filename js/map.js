@@ -181,7 +181,7 @@ var numberActivePin = function () {                                             
       var p = m - 1;
     }
   }
-  return p
+  return p;
 };
 
 var showLodgeContent = function () {                                                      // функция выводит описание выбранного пина
