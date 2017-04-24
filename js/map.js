@@ -156,8 +156,8 @@ dialog.innerHTML = '';                                                          
 
 dialog.appendChild(renderLodgeContent(0));                                                  // заполняю его данными из массива данными первого объекта
 
-document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[1].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
-
+document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[0].author.avatar;               // Меняю src у аватарки пользователя — изображения, которое записано в .dialog__title — на значения поля author.avatar отрисовываемого объекта.
+document.querySelector('.dialog__close').tabIndex = 0;
 // .......................module4-task1
 
 var activePin = function (pinEl) {                                                        // функция добавления класса pin--active
@@ -174,7 +174,7 @@ var deactiveAllPin = function () {                                              
   }
 };
 
- var numberActivePin = function (elementPins) {                                                       // функция поиска активного пина
+var numberActivePin = function (elementPins) {                                                       // функция поиска активного пина
    for (var m = 0; m < elementPins.length; m++) {
      if (elementPins[m].classList.value == 'pin pin--active') {     // <-------------- ВОТ ТУТ ПРОБЛЕМЫ
       var p = m;
@@ -193,19 +193,17 @@ var showLodgeAvatar = function () {                                             
   document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[p].author.avatar;
 };
 
-var clickHandler = function (event) {                                                    // деактивируем все активные пины, и активируем по клику
-
+var clickHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по клику
   deactiveAllPin();
-  activePin(event.target);
+  activePin(evt.target);
   showLodgeContent();                                                                    // выводим описание пина по клику
   showLodgeAvatar();                                                                     // выводим аватар по клику
 };
 
-var enterHandler = function (event) {                                                    // деактивируем все активные пины, и активируем по enter
-  if (event.keyCode === 13) {
-    console.log(event);
+var enterHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по enter
+  if (evt.keyCode === 13) {
     deactiveAllPin();
-    activePin(event.target);
+    activePin(pin);
     showLodgeContent();                                                                    // выводим описание пина по enter
     showLodgeAvatar();                                                                     // выводим аватар по enter
   }
@@ -222,9 +220,18 @@ for (var k = 1; k < elementPins.length; k++) {                                  
 
 
 
-var clickCloseHandler = function () {                                                     // При нажатии на элемент .dialog__close объявление скрывается и деактивируется элемент .pin, который был помечен как активный
+var clickCloseHandler = function (evt) {                                                     // При клике на элемент .dialog__close объявление скрывается и деактивируется элемент .pin, который был помечен как активный
   document.getElementById('offer-dialog').style.display = 'none';                         // делаю не видным весь блок с описанием
   deactiveAllPin();
 };
+
+var enterCloseHandler = function (evt) {                                                     // При нажатии enter на элемент .dialog__close объявление скрывается и деактивируется элемент .pin, который был помечен как активный
+  if (evt.keyCode === 13) {
+    document.getElementById('offer-dialog').style.display = 'none';                         // делаю не видным весь блок с описанием
+    deactiveAllPin();
+  }
+};
+
 var dialogCloseButton = document.querySelector('.dialog__close');
-dialogCloseButton.addEventListener('click', clickCloseHandler);
+dialogCloseButton.addEventListener('click', clickCloseHandler);                           // обработчик по клику на закрытие
+dialogCloseButton.addEventListener('keydown', enterCloseHandler);                         // обработчик по enter на закрытие
