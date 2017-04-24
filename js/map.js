@@ -129,7 +129,8 @@ function renderLodgeContent(x) {
         return 'Бунгало';
       case 'house':
         return 'Дом';
-      default: return '';
+      default:
+        return '';
     }
   }
 
@@ -175,22 +176,24 @@ var deactiveAllPin = function () {                                              
 };
 
 var numberActivePin = function () {                                                       // функция поиска активного пина
-   for (var m = 0; m < elementPins.length; m++) {
-     if (elementPins[m].classList.value == 'pin pin--active') {     // <-------------- ВОТ ТУТ ПРОБЛЕМЫ
-      var p = m;
-     }
-   }
-   return p
- };
+  for (var m = 0; m < elementPins.length; m++) {
+    if (elementPins[m].classList.value === 'pin pin--active') {
+      var p = m - 1;
+    }
+  }
+  return p
+};
 
 var showLodgeContent = function () {                                                      // функция выводит описание выбранного пина
   document.getElementById('offer-dialog').style.display = 'block';                        // делаю видным весь блок с описанием
   dialog.innerHTML = '';
-  dialog.appendChild(renderLodgeContent(p));
+  var numberIdActivePin = numberActivePin();
+  dialog.appendChild(renderLodgeContent(numberIdActivePin));
 };
 
 var showLodgeAvatar = function () {                                                       // функция выводит аватар выбранного пина
-  document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[p].author.avatar;
+  var numberIdActivePin = numberActivePin();
+  document.querySelector('.dialog__title').firstElementChild.src = nearbyAds[numberIdActivePin].author.avatar;
 };
 
 var clickHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по клику
@@ -203,12 +206,11 @@ var clickHandler = function (evt) {                                             
 var enterHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по enter
   if (evt.keyCode === 13) {
     deactiveAllPin();
-    activePin(pin);
+    activePin(evt.target.parent);
     showLodgeContent();                                                                    // выводим описание пина по enter
     showLodgeAvatar();                                                                     // выводим аватар по enter
   }
-  };
-
+};
 
 var elementPins = document.querySelectorAll('.pin');                                      // нахожу все дивы с классом pin
 
@@ -217,8 +219,6 @@ for (var k = 1; k < elementPins.length; k++) {                                  
   elementPin.addEventListener('click', clickHandler);                                     // обработчик по клику
   elementPin.addEventListener('keydown', enterHandler);                                   // обработчик по enter
 }
-
-
 
 var clickCloseHandler = function (evt) {                                                     // При клике на элемент .dialog__close объявление скрывается и деактивируется элемент .pin, который был помечен как активный
   document.getElementById('offer-dialog').style.display = 'none';                         // делаю не видным весь блок с описанием
@@ -236,11 +236,10 @@ var dialogCloseButton = document.querySelector('.dialog__close');
 dialogCloseButton.addEventListener('click', clickCloseHandler);                           // обработчик по клику на закрытие
 dialogCloseButton.addEventListener('keydown', enterCloseHandler);                         // обработчик по enter на закрытие
 
-
 var dialogClose = function (evt) {                                                       // закрытие по esc
   if (evt.keyCode === 27) {
     document.getElementById('offer-dialog').style.display = 'none';
     deactiveAllPin();
   }
 };
-document.addEventListener('keydown', dialogClose(evt));                                   // обработчик на закрытие по esc
+document.addEventListener('keydown', dialogClose);                                   // обработчик на закрытие по esc
