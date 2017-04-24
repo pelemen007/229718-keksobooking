@@ -243,3 +243,5 @@ var dialogClose = function (evt) {                                              
   }
 };
 document.addEventListener('keydown', dialogClose);                                   // обработчик на закрытие по esc
+
+// ***************************module4-task2
