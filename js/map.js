@@ -310,3 +310,21 @@ var changePrice = function () {
 };
 
 type.addEventListener('change', changePrice);                                         // Добавляем слушателя для селекта type на изменение
+
+var roomNumber = form.querySelector('#room_number');                                  // Находим селект кол-ва комнат
+
+var capacity = form.querySelector('#capacity');                                       // Находим селект кол-ва гостей
+
+var changeCapacity = function () {                                                    // Функция замены кол-ва гостей от выбранного кол-ва комнат
+  if (roomNumber.options[1].selected) {                                               // 2 комнаты для 3 гостей
+    capacity.options[0].selected = true;
+  }
+  if (roomNumber.options[2].selected) {                                               // 100 комнат для 3 гостей
+    capacity.options[0].selected = true;
+  }
+  if (roomNumber.options[0].selected === true) {                                      // 1 комната не для гостей
+    capacity.options[1].selected = true;
+  }
+};
+
+roomNumber.addEventListener('change', changeCapacity);                                 // Добавляем слушателя для селекта roomNumber на изменение
