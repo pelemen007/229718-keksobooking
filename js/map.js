@@ -245,3 +245,19 @@ var dialogClose = function (evt) {                                              
 document.addEventListener('keydown', dialogClose);                                   // обработчик на закрытие по esc
 
 // ***************************module4-task2
+
+var form = document.querySelector('.notice__form');                                  // находим форму
+
+var title = form.querySelector('#title');                                            // находим в форме поле для заголовка
+
+title.required = true;                                                               // Обязательное поле
+title.minLength = 30;                                                                // Минимальная длина — 30 символов
+title.maxLength = 100;                                                               // Макcимальная длина — 100 символов
+
+var price = form.querySelector('#price');                                            // находим в форме поле для цены
+
+price.required = true;                                                               // Обязательное поле
+price.type = 'number';                                                               // Числовое поле
+price.min = 1000;                                                                    // Минимальное значение — 1000
+price.max = 1000000;                                                                 // Максимальное значение — 1 000 000
+price.value = 1000;                                                                  // Значение — 1000 по умолчанию
