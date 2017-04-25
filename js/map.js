@@ -273,8 +273,40 @@ var autoSelect = function (selectValue1, selectValue2) {                        
       }
     }
   };
-  selectValue1.addEventListener('change', changeValue);                              // Добавляем слушателя на первый параметр функции
+  selectValue1.addEventListener('change', changeValue);                              // Добавляем слушателя на первый параметр функции на изменение
 };
 
 autoSelect(time, timeout);                                                           // Запускаю функцию для изменения значений timeout в зависимости от выбранных time
 autoSelect(timeout, time);                                                           // Запускаю функцию для изменения значений time в зависимости от выбранных timeout
+
+var type = form.querySelector('#type');                                              // Находим селект типа жилья
+
+var minPrices = [1000, 0, 10000];                                                    // Минимальные цены для типов жилья
+
+var changeType = function () {                                                       // Функция замены типа жилья в зависимости от значения цены
+  if (price.value >= minPrices[0] && price.value < minPrices[2]) {
+    type.options[0].selected = true;                                                 // 'Квартира' от 1000 до 10000
+  }
+  if (price.value >= minPrices[1] && price.value < minPrices[0]) {
+    type.options[1].selected = true;                                                 // 'Лачуга' от 0 до 1000
+  }
+  if (price.value >= minPrices[2]) {
+    type.options[2].selected = true;                                                 // 'Дворец' от 10000
+  }
+};
+
+price.addEventListener('input', changeType);                                         // Добавляем слушателя для инпута price на ввод
+
+var changePrice = function () {
+  if (type.options[1].selected === true) {                                           // Если выбран 'Лачуга', то цена 0
+    price.value = minPrices[1];
+  }
+  if (type.options[0].selected === true) {                                           // Если выбран 'Квартира', то цена 1000
+    price.value = minPrices[0];
+  }
+  if (type.options[2].selected === true) {                                           // Если выбран 'Дворец', то цена 10000
+    price.value = minPrices[2];
+  }
+};
+
+type.addEventListener('change', changePrice);                                         // Добавляем слушателя для селекта type на изменение
