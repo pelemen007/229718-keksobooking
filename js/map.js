@@ -346,7 +346,7 @@ var getValidForm = function () {                                                
   var getValidTitle = validTitle(title, title.minLength, title.maxLength);
   return getValidNumber && getValidTitle;                                              // и возвращает либо true либо false
 };
-console.log(getValidForm());
+
 var submitForm = function () {
   if (getValidForm()) {                                                                // Если форма валидна, то получаем true и выполняем функции ниже
     form.submit();                                                                     // Отправка формы
