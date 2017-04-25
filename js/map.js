@@ -258,7 +258,7 @@ var price = form.querySelector('#price');                                       
 
 price.required = true;                                                               // Обязательное поле
 price.type = 'number';                                                               // Числовое поле
-price.min = 1000;                                                                    // Минимальное значение — 1000
+price.min = 0;                                                                       // Минимальное значение — 0
 price.max = 1000000;                                                                 // Максимальное значение — 1000000
 price.value = 1000;                                                                  // Значение — 1000 по умолчанию
 
@@ -316,3 +316,15 @@ var changeCapacity = function () {                                              
 };
 
 roomNumber.addEventListener('change', changeCapacity);                                 // Добавляем слушателя для селекта roomNumber на изменение
+
+var submit = form.querySelector('.form__submit');                                      // Нахожу кнопку отправить
+
+var submitForm = function () {
+  if () {
+    form.submit();
+    form.reset();
+    capacity.options[1].selected = true;
+    price.value = 1000;
+  }
+};
+submit.addEventListener('click', submitForm);                                        // Добавляю слушателя на кнопку по клику
