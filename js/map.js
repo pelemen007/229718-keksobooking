@@ -259,5 +259,22 @@ var price = form.querySelector('#price');                                       
 price.required = true;                                                               // Обязательное поле
 price.type = 'number';                                                               // Числовое поле
 price.min = 1000;                                                                    // Минимальное значение — 1000
-price.max = 1000000;                                                                 // Максимальное значение — 1 000 000
+price.max = 1000000;                                                                 // Максимальное значение — 1000000
 price.value = 1000;                                                                  // Значение — 1000 по умолчанию
+
+var time = form.querySelector('#time');                                              // Находим селект time
+var timeout = form.querySelector('#timeout');                                        // Находим селект timeout
+
+var autoSelect = function (selectValue1, selectValue2) {                             // Функция автозамены значения в селекте, в засивисимости от выбранного значения в другом по порядковому номеру
+  var changeValue = function () {
+    for (i = 0; i < selectValue1.length; i++) {
+      if (selectValue1.options[i].selected === true) {                               // Если выбрано i-ое значение у первого селекта
+        selectValue2.options[i].selected = true;                                     // то присвоить такое же и второму
+      }
+    }
+  };
+  selectValue1.addEventListener('change', changeValue);                              // Добавляем слушателя на первый параметр функции
+};
+
+autoSelect(time, timeout);                                                           // Запускаю функцию для изменения значений timeout в зависимости от выбранных time
+autoSelect(timeout, time);                                                           // Запускаю функцию для изменения значений time в зависимости от выбранных timeout
