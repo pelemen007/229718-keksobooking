@@ -283,20 +283,6 @@ var type = form.querySelector('#type');                                         
 
 var minPrices = [1000, 0, 10000];                                                    // Минимальные цены для типов жилья
 
-var changeType = function () {                                                       // Функция замены типа жилья в зависимости от значения цены
-  if (price.value >= minPrices[0] && price.value < minPrices[2]) {
-    type.options[0].selected = true;                                                 // 'Квартира' от 1000 до 10000
-  }
-  if (price.value >= minPrices[1] && price.value < minPrices[0]) {
-    type.options[1].selected = true;                                                 // 'Лачуга' от 0 до 1000
-  }
-  if (price.value >= minPrices[2]) {
-    type.options[2].selected = true;                                                 // 'Дворец' от 10000
-  }
-};
-
-price.addEventListener('input', changeType);                                         // Добавляем слушателя для инпута price на ввод
-
 var changePrice = function () {
   if (type.options[1].selected === true) {                                           // Если выбран 'Лачуга', то цена 0
     price.value = minPrices[1];
@@ -314,6 +300,8 @@ type.addEventListener('change', changePrice);                                   
 var roomNumber = form.querySelector('#room_number');                                  // Находим селект кол-ва комнат
 
 var capacity = form.querySelector('#capacity');                                       // Находим селект кол-ва гостей
+
+capacity.options[1].selected = true;                                                  // Задаю значение "не для гостей", чтобы соответствовало кол-ву комнат = 1 комната
 
 var changeCapacity = function () {                                                    // Функция замены кол-ва гостей от выбранного кол-ва комнат
   if (roomNumber.options[1].selected) {                                               // 2 комнаты для 3 гостей
