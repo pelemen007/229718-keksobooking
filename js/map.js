@@ -355,4 +355,12 @@ var submitForm = function () {
     price.value = 1000;                                                                // Исходное значение цены 1000
   }
 };
+
+var enterSubmitForm = function (evt) {
+  if (evt.keyCode === 13) {
+    submitForm();
+  }
+};
+
 submit.addEventListener('click', submitForm);                                          // Добавляю слушателя на кнопку по клику
+document.addEventListener('keydown', enterSubmitForm);                                 // Добавляю слушателя на кнопку по enter
