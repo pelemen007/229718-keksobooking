@@ -317,14 +317,42 @@ var changeCapacity = function () {                                              
 
 roomNumber.addEventListener('change', changeCapacity);                                 // Добавляем слушателя для селекта roomNumber на изменение
 
+// Проверка формы на валидность, отправка и очистка
+
 var submit = form.querySelector('.form__submit');                                      // Нахожу кнопку отправить
 
-var submitForm = function () {
-  if () {
-    form.submit();
-    form.reset();
-    capacity.options[1].selected = true;
-    price.value = 1000;
+var validNumber = function (boxNumber, minNumber, maxNumber) {                         // Функция проверки числового поля
+  if (boxNumber.value < minNumber || boxNumber.value > maxNumber) {                    // Если значение меньше минимального или больше максимального
+    boxNumber.style.borderColor = 'red';                                               // возвращает false и красит инпут в красный
+    return false;
+  } else {
+    boxNumber.style.borderColor = '';                                                  // иначе true
+    return true;
   }
 };
-submit.addEventListener('click', submitForm);                                        // Добавляю слушателя на кнопку по клику
+
+var validTitle = function (boxText, minText, maxText) {                                // Функция проверки текстового поля
+  if (boxText.value.length < minText || boxText.value.length > maxText) {              // Если длина текста меньше минимального или больше максимального
+    boxText.style.borderColor = 'red';                                                 // возвращает false и красит инпут в красный
+    return false;
+  } else {
+    boxText.style.borderColor = '';                                                    // иначе true
+    return true;
+  }
+};
+
+var getValidForm = function () {                                                       // Функция запускает функции для проверки поля "Цена за ночь" и "Заголовок"
+  var getValidNumber = validNumber(price, price.min, price.max);
+  var getValidTitle = validTitle(title, title.minLength, title.maxLength);
+  return getValidNumber && getValidTitle;                                              // и возвращает либо true либо false
+};
+console.log(getValidForm());
+var submitForm = function () {
+  if (getValidForm()) {                                                                // Если форма валидна, то получаем true и выполняем функции ниже
+    form.submit();                                                                     // Отправка формы
+    form.reset();                                                                      // Очищаем форму
+    capacity.options[1].selected = true;                                               // Задаю значение "не для гостей", чтобы соответствовало кол-ву комнат = 1 комната
+    price.value = 1000;                                                                // Исходное значение цены 1000
+  }
+};
+submit.addEventListener('click', submitForm);                                          // Добавляю слушателя на кнопку по клику
