@@ -319,8 +319,6 @@ roomNumber.addEventListener('change', changeCapacity);                          
 
 // Проверка формы на валидность, отправка и очистка
 
-var submit = form.querySelector('.form__submit');                                      // Нахожу кнопку отправить
-
 var validNumber = function (boxNumber, minNumber, maxNumber) {                         // Функция проверки числового поля
   if (boxNumber.value < minNumber || boxNumber.value > maxNumber) {                    // Если значение меньше минимального или больше максимального
     boxNumber.style.borderColor = 'red';                                               // возвращает false и красит инпут в красный
@@ -357,4 +355,4 @@ var submitForm = function (evt) {
   }
 };
 
-form.addEventListener("submit", submitForm);
+form.addEventListener('submit', submitForm);
