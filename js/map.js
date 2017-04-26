@@ -206,7 +206,7 @@ var clickHandler = function (evt) {                                             
 var enterHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по enter
   if (evt.keyCode === 13) {
     deactiveAllPin();
-    activePin(evt.target.parent);
+    activePin(evt.target.parentNode);
     showLodgeContent();                                                                    // выводим описание пина по enter
     showLodgeAvatar();                                                                     // выводим аватар по enter
   }
@@ -247,7 +247,7 @@ document.addEventListener('keydown', dialogClose);                              
 // ***************************module4-task2
 
 var form = document.querySelector('.notice__form');                                  // находим форму
-
+form.setAttribute('novalidate', '');
 var title = form.querySelector('#title');                                            // находим в форме поле для заголовка
 
 title.required = true;                                                               // Обязательное поле
@@ -347,7 +347,8 @@ var getValidForm = function () {                                                
   return getValidNumber && getValidTitle;                                              // и возвращает либо true либо false
 };
 
-var submitForm = function () {
+var submitForm = function (evt) {
+  evt.preventDefault();
   if (getValidForm()) {                                                                // Если форма валидна, то получаем true и выполняем функции ниже
     form.submit();                                                                     // Отправка формы
     form.reset();                                                                      // Очищаем форму
@@ -356,11 +357,4 @@ var submitForm = function () {
   }
 };
 
-var enterSubmitForm = function (evt) {
-  if (evt.keyCode === 13) {
-    submitForm();
-  }
-};
-
-submit.addEventListener('click', submitForm);                                          // Добавляю слушателя на кнопку по клику
-document.addEventListener('keydown', enterSubmitForm);                                 // Добавляю слушателя на кнопку по enter
+form.addEventListener("submit", submitForm);
