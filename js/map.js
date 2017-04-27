@@ -206,7 +206,7 @@ var clickHandler = function (evt) {                                             
 var enterHandler = function (evt) {                                                    // деактивируем все активные пины, и активируем по enter
   if (evt.keyCode === 13) {
     deactiveAllPin();
-    activePin(evt.target.parent);
+    activePin(evt.target.parentNode);
     showLodgeContent();                                                                    // выводим описание пина по enter
     showLodgeAvatar();                                                                     // выводим аватар по enter
   }
@@ -243,3 +243,116 @@ var dialogClose = function (evt) {                                              
   }
 };
 document.addEventListener('keydown', dialogClose);                                   // обработчик на закрытие по esc
+
+// ***************************module4-task2
+
+var form = document.querySelector('.notice__form');                                  // находим форму
+form.setAttribute('novalidate', '');
+var title = form.querySelector('#title');                                            // находим в форме поле для заголовка
+
+title.required = true;                                                               // Обязательное поле
+title.minLength = 30;                                                                // Минимальная длина — 30 символов
+title.maxLength = 100;                                                               // Макcимальная длина — 100 символов
+
+var price = form.querySelector('#price');                                            // находим в форме поле для цены
+
+price.required = true;                                                               // Обязательное поле
+price.type = 'number';                                                               // Числовое поле
+price.min = 0;                                                                       // Минимальное значение — 0
+price.max = 1000000;                                                                 // Максимальное значение — 1000000
+price.value = 1000;                                                                  // Значение — 1000 по умолчанию
+
+var time = form.querySelector('#time');                                              // Находим селект time
+var timeout = form.querySelector('#timeout');                                        // Находим селект timeout
+
+var autoSelect = function (selectValue1, selectValue2) {                             // Функция автозамены значения в селекте, в засивисимости от выбранного значения в другом по порядковому номеру
+  var changeValue = function () {
+    for (i = 0; i < selectValue1.length; i++) {
+      if (selectValue1.options[i].selected === true) {                               // Если выбрано i-ое значение у первого селекта
+        selectValue2.options[i].selected = true;                                     // то присвоить такое же и второму
+      }
+    }
+  };
+  selectValue1.addEventListener('change', changeValue);                              // Добавляем слушателя на первый параметр функции на изменение
+};
+
+autoSelect(time, timeout);                                                           // Запускаю функцию для изменения значений timeout в зависимости от выбранных time
+autoSelect(timeout, time);                                                           // Запускаю функцию для изменения значений time в зависимости от выбранных timeout
+
+var type = form.querySelector('#type');                                              // Находим селект типа жилья
+
+var minPrices = [1000, 0, 10000];                                                    // Минимальные цены для типов жилья
+
+var changePrice = function () {
+  if (type.options[1].selected === true) {                                           // Если выбран 'Лачуга', то цена 0
+    price.value = minPrices[1];
+  }
+  if (type.options[0].selected === true) {                                           // Если выбран 'Квартира', то цена 1000
+    price.value = minPrices[0];
+  }
+  if (type.options[2].selected === true) {                                           // Если выбран 'Дворец', то цена 10000
+    price.value = minPrices[2];
+  }
+};
+
+type.addEventListener('change', changePrice);                                         // Добавляем слушателя для селекта type на изменение
+
+var roomNumber = form.querySelector('#room_number');                                  // Находим селект кол-ва комнат
+
+var capacity = form.querySelector('#capacity');                                       // Находим селект кол-ва гостей
+
+capacity.options[1].selected = true;                                                  // Задаю значение "не для гостей", чтобы соответствовало кол-ву комнат = 1 комната
+
+var changeCapacity = function () {                                                    // Функция замены кол-ва гостей от выбранного кол-ва комнат
+  if (roomNumber.options[1].selected) {                                               // 2 комнаты для 3 гостей
+    capacity.options[0].selected = true;
+  }
+  if (roomNumber.options[2].selected) {                                               // 100 комнат для 3 гостей
+    capacity.options[0].selected = true;
+  }
+  if (roomNumber.options[0].selected === true) {                                      // 1 комната не для гостей
+    capacity.options[1].selected = true;
+  }
+};
+
+roomNumber.addEventListener('change', changeCapacity);                                 // Добавляем слушателя для селекта roomNumber на изменение
+
+// Проверка формы на валидность, отправка и очистка
+
+var validNumber = function (boxNumber, minNumber, maxNumber) {                         // Функция проверки числового поля
+  if (boxNumber.value < minNumber || boxNumber.value > maxNumber) {                    // Если значение меньше минимального или больше максимального
+    boxNumber.style.borderColor = 'red';                                               // возвращает false и красит инпут в красный
+    return false;
+  } else {
+    boxNumber.style.borderColor = '';                                                  // иначе true
+    return true;
+  }
+};
+
+var validTitle = function (boxText, minText, maxText) {                                // Функция проверки текстового поля
+  if (boxText.value.length < minText || boxText.value.length > maxText) {              // Если длина текста меньше минимального или больше максимального
+    boxText.style.borderColor = 'red';                                                 // возвращает false и красит инпут в красный
+    return false;
+  } else {
+    boxText.style.borderColor = '';                                                    // иначе true
+    return true;
+  }
+};
+
+var getValidForm = function () {                                                       // Функция запускает функции для проверки поля "Цена за ночь" и "Заголовок"
+  var getValidNumber = validNumber(price, price.min, price.max);
+  var getValidTitle = validTitle(title, title.minLength, title.maxLength);
+  return getValidNumber && getValidTitle;                                              // и возвращает либо true либо false
+};
+
+var submitForm = function (evt) {
+  evt.preventDefault();
+  if (getValidForm()) {                                                                // Если форма валидна, то получаем true и выполняем функции ниже
+    form.submit();                                                                     // Отправка формы
+    form.reset();                                                                      // Очищаем форму
+    capacity.options[1].selected = true;                                               // Задаю значение "не для гостей", чтобы соответствовало кол-ву комнат = 1 комната
+    price.value = 1000;                                                                // Исходное значение цены 1000
+  }
+};
+
+form.addEventListener('submit', submitForm);
